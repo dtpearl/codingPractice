@@ -65,7 +65,7 @@ function loop() {
     // draw snake
     context.fillStyle = "green";
     snake.cells.forEach( (cell, index) => {
-        context.fillRect(cell.x, cell.y, grid-1, grid-1);
+        context.fillRect(cell.x, cell.y, grid, grid);
 
         if (cell.x === apple.x && cell.y === apple.y) {
             snake.maxCells++;
