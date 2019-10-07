@@ -21,10 +21,14 @@ let apple = {
     y: 640
 };
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 function loop() {
     requestAnimationFrame(loop);
     
-    if (++count < 4) {
+    if (++count < 8) {
         return;
     }
 
@@ -56,11 +60,55 @@ function loop() {
 
     // draw apple
     context.fillStyle = "red";
-    context.fillRect(640, 640, 16, 16);
+    context.fillRect(apple.x, apple.y, 16, 16);
 
     // draw snake
-    
+    context.fillStyle = "green";
+    snake.cells.forEach( (cell, index) => {
+        context.fillRect(cell.x, cell.y, grid-1, grid-1);
+
+        if (cell.x === apple.x && cell.y === apple.y) {
+            snake.maxCells++;
+
+            apple.x = getRandomInt(0,50) * grid;
+            apple.y = getRandomInt(0,50) * grid;
+        }
+
+        for (let i = index + 1; i < snake.cells.length; i++) {
+            if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y){
+                snake.x = 320;
+                snake.y = 320;
+                snake.cells = [];
+                snake.maxCells = 4;
+                snake.dx = grid;
+                snake.dy = 0;
+
+                apple.x = getRandomInt(0,50) * grid;
+                apple.y = getRandomInt(0,50) * grid;
+            }
+            
+        }
+    });
     
 }
+
+document.addEventListener('keydown', function(e) {
+    if (e.which === 37 && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+    }
+    if (e.which === 38 && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+    }
+    if (e.which === 39 && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+    }
+    if (e.which === 40 && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+    }
+})
 
 requestAnimationFrame(loop);
