@@ -1,0 +1,9 @@
+body {
+    border: 0;
+    background-color: cornflowerblue;
+}
+
+#gameArea {
+    width: 400px;
+    height: 400px;
+}
